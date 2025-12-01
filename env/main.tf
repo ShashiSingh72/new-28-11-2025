@@ -3,8 +3,8 @@ module "rg" {
   rgs    = var.rgs
 }
 
-# module "stg" {
-#     depends_on = [ module.rg ]
-#   source = "../modules/stg"
-#   stgs   = var.stgs
-# }
+module "stg" {
+  depends_on = [module.rg]
+  source     = "../modules/stg"
+  stgs       = var.stgs
+}

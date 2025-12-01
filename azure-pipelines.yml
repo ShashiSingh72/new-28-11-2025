@@ -2,20 +2,21 @@ trigger:
 - feature/*
 - main
 
-pool: dev-infra-pool
+pool: my agent pool
 
 stages:
   - stage: 
     jobs:
       - job: 
         steps: 
-        - task: TerraformTask@5
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/env'
-            backendServiceArm: 'infra-service-connection'
-            backendAzureRmResourceGroupName: 'pipeline_rg'
-            backendAzureRmStorageAccountName: 'pipelinestg01'
-            backendAzureRmContainerName: 'pipelinecontainer'
-            backendAzureRmKey: 'terraform.tfstate'
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/env'
+              backendAzureRmUseEntraIdForAuthentication: false
+              backendServiceArm: 'todo-service-connection'
+              backendAzureRmResourceGroupName: 'todo-backend-rg'
+              backendAzureRmStorageAccountName: 'backendstorage001'
+              backendAzureRmContainerName: 'container001'
+              backendAzureRmKey: 'terraform.tfstate'

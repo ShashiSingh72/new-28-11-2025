@@ -11,7 +11,7 @@ rgs = {
 
 stgs = {
   "stg1" = {
-    stgname                          = "devstorage12345"
+    stgname                          = "mydevstg2234"
     location                         = "centralindia"
     rgname                           = "mydev-rg"
     account_tier                     = "Standard"

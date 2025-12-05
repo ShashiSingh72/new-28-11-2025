@@ -32,16 +32,28 @@ stages:
             backendAzureRmKey: 'terraform.tfstate'
 
         - task: DownloadSecureFile@1
+          name: terraformtfvars
           inputs:
-            name: terraform.tfvars
             secureFile: 'terraform.tfvars'
-
-        - task: Bash@3
+        - task: PowerShell@2
           inputs:
             targetType: 'inline'
             script: |
-              echo ' copy tfvars to working directory'
-              cp "$(terraform.tfvars.secureFilePath)" "$(System.DefaultWorkingDirectory)/env/terraform.tfvars"
+              Write-Host "Copy tfvars to working directory"
+              
+                    $source = "$(terraform.tfvars.secureFilePath)"
+                    $destination = "$(System.DefaultWorkingDirectory)/env/terraform.tfvars"
+              
+                    Copy-Item -Path $source -Destination $destination -Force
+              
+                    Write-Host "Copied successfully!"
+
+        # - task: Bash@3
+        #   inputs:
+        #     targetType: 'inline'
+        #     script: |
+        #       echo ' copy tfvars to working directory'
+        #       cp "$(terraform.tfvars.secureFilePath)" "$(System.DefaultWorkingDirectory)/env/terraform.tfvars"
         - task: TerraformTask@5
           inputs:
             provider: 'azurerm'

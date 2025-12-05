@@ -31,8 +31,20 @@ stages:
             backendAzureRmContainerName: 'container001'
             backendAzureRmKey: 'terraform.tfstate'
 
+        - task: DownloadSecureFile@1
+          inputs:
+            name: terraform.tfvars
+            secureFile: 'terraform.tfvars'
 
-  - stage: 
-    jobs:
-      - job: 
-        steps: 
+        - task: Bash@3
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo ' copy tfvars to working directory'
+              cp "$(terraform.tfvars.secureFilePath)" "$(System.DefaultWorkingDirectory)/env/terraform.tfvars"
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/env'
+            environmentServiceNameAzureRM: 'todo-service-connection'

@@ -2,6 +2,12 @@ trigger:
 - feature/*
 - main
 
+
+variables:
+- name: '$(System.DefaultWorkingDirectory)/env'
+  value: $(PATH)
+
+
 pool: my agent pool
 
 stages:
@@ -13,7 +19,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/env'
+              workingDirectory: '$(PATH)'
               backendAzureRmUseEntraIdForAuthentication: false
               backendServiceArm: 'todo-service-connection'
               backendAzureRmResourceGroupName: 'todo-backend-rg'

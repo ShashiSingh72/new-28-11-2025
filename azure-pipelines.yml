@@ -34,6 +34,7 @@ stages:
         - task: DownloadSecureFile@1
           name: terraformtfvars
           inputs:
+            name: terraformt.fvars
             secureFile: 'terraform.tfvars'
         - task: PowerShell@2
           inputs:
